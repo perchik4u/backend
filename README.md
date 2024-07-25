@@ -1,1 +1,2 @@
-# C# + MSSQL, реализовано на Windows Forms
+# C# + MSSQL
+Реализовано на Windows Forms
