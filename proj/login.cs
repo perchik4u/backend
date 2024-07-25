@@ -23,7 +23,6 @@ namespace proj
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
             button2.Click += new System.EventHandler(this.button2_Click);
-            database.openConnection();
         }
 
         private void login_Load(object sender, EventArgs e)
@@ -33,6 +32,7 @@ namespace proj
 
         private void button2_Click(object sender, EventArgs e)
         {
+            database.openConnection();
             var login = textBox12.Text;
             var password = textBox11.Text;
 
@@ -84,6 +84,7 @@ namespace proj
             {
                 MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            database.closeConnection();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
