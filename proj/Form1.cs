@@ -13,19 +13,99 @@ using System.Windows.Forms;
 
 namespace proj
 {
-    public partial class Form1 : Form
+    
+    enum RowState
+    {
+        Existed,
+        New,
+        Modified,
+        ModifiedNew,
+        Deleted
+    }
+
+    public partial class accountView : Form
     {
 
         dataBase database = new dataBase();
+        private string fName;
 
-        public Form1()
+        int selectedRow;
+
+        public accountView(string fName)
         {
             InitializeComponent();
+            StartPosition = FormStartPosition.CenterScreen;
+            this.fName = fName;
+            label2.Text = $"Добро пожаловать, {fName}";
+        }
+
+        private void CreateColumns()
+        {
+            dataGridView.Columns.Add("id", "id");
+            dataGridView.Columns.Add("fName", "Имя");
+            dataGridView.Columns.Add("uLogin", "Логин");
+            dataGridView.Columns.Add("phoneNumber", "Телефон");
+            dataGridView.Columns.Add("IsNew", String.Empty);
+
+            dataGridView1.Columns.Add("id", "id");
+            dataGridView1.Columns.Add("cName", "Название");
+            dataGridView1.Columns.Add("country", "Страна");
+            dataGridView1.Columns.Add("IsNew", String.Empty);
+        }
+
+        private void ReadSingleRow(DataGridView dgw, IDataRecord record)
+        {
+            dgw.Rows.Add(record.GetGuid(0), record.GetString(1), record.GetString(2), record.GetString(3), RowState.ModifiedNew);
+        }
+
+        private void ReadSingleRow2(DataGridView dgw, IDataRecord record)
+        {
+            dgw.Rows.Add(record.GetGuid(0), record.GetString(1), record.GetString(2), RowState.ModifiedNew);
+        }
+
+        private void RefreshDataGrid(DataGridView dgw)
+        {
+            dgw.Rows.Clear();
+
+            string queryString = $"SELECT id, fName, uLogin, phoneNumber FROM users";
+
+            SqlCommand command = new SqlCommand(queryString, database.getConnection());
+
+            database.openConnection();
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            while(reader.Read())
+            {
+                ReadSingleRow(dgw, reader);
+            }
+            reader.Close();
+        }
+
+        private void RefreshDataGrid2(DataGridView dgw)
+        {
+            dgw.Rows.Clear();
+
+            string queryString = $"SELECT id, cName, country FROM company";
+
+            SqlCommand command = new SqlCommand(queryString, database.getConnection());
+
+            database.openConnection();
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                ReadSingleRow2(dgw, reader);
+            }
+            reader.Close();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            CreateColumns();
+            RefreshDataGrid(dataGridView);
+            RefreshDataGrid2(dataGridView1);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -65,6 +145,59 @@ namespace proj
 
         private void textBox11_TextChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            selectedRow = e.RowIndex;
+
+            if(e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridView.Rows[selectedRow];
+
+                textBox_fName.Text = row.Cells[1].Value.ToString();
+                textBox_phone.Text = row.Cells[3].Value.ToString();
+                textBox_login.Text = row.Cells[2].Value.ToString();
+            }
+        }
+
+        private void label5_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            selectedRow = e.RowIndex;
+
+            if(e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridView1.Rows[selectedRow];
+
+                textBox_companyName.Text = row.Cells[1].Value.ToString();
+                textBox_country.Text = row.Cells[2].Value.ToString();
+            }
 
         }
     }

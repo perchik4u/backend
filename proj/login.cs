@@ -39,7 +39,7 @@ namespace proj
             SqlDataAdapter adapter = new SqlDataAdapter();
             DataTable table = new DataTable();
 
-            string querystring = "SELECT uLogin, uPassword FROM users WHERE uLogin = @login and uPassword = @password";
+            string querystring = "SELECT uLogin, uPassword, fName FROM users WHERE uLogin = @login and uPassword = @password";
 
             try
             {
@@ -67,8 +67,9 @@ namespace proj
 
                         if (table.Rows.Count == 1)
                         {
+                            string name = table.Rows[0]["fName"].ToString();
                             MessageBox.Show("Вы успешно вошли", "Успешный вход", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            Form1 frm1 = new Form1();
+                            accountView frm1 = new accountView(name);
                             this.Hide();
                             frm1.ShowDialog();
                             this.Show();
