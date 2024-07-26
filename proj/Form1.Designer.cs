@@ -59,6 +59,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -76,7 +77,6 @@
             this.label2.Size = new System.Drawing.Size(102, 39);
             this.label2.TabIndex = 1;
             this.label2.Text = "name";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // dataGridView
             // 
@@ -103,14 +103,10 @@
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.label3.Location = new System.Drawing.Point(237, 56);
+            this.label3.Location = new System.Drawing.Point(0, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(118, 24);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Сотрудники";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            this.label3.Size = new System.Drawing.Size(100, 23);
+            this.label3.TabIndex = 37;
             // 
             // label4
             // 
@@ -220,14 +216,10 @@
             // 
             // label16
             // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.25F);
-            this.label16.Location = new System.Drawing.Point(7, 17);
+            this.label16.Location = new System.Drawing.Point(0, 0);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(239, 26);
-            this.label16.TabIndex = 27;
-            this.label16.Text = "Управление записями";
-            this.label16.Click += new System.EventHandler(this.label16_Click);
+            this.label16.Size = new System.Drawing.Size(100, 23);
+            this.label16.TabIndex = 33;
             // 
             // button_new
             // 
@@ -373,11 +365,22 @@
             this.label9.TabIndex = 27;
             this.label9.Text = "Управление записями";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
+            this.label6.Location = new System.Drawing.Point(195, 56);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(118, 24);
+            this.label6.TabIndex = 38;
+            this.label6.Text = "Сотрудники";
+            // 
             // accountView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1191, 652);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panel3);
@@ -396,7 +399,6 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
@@ -437,6 +439,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label6;
     }
 }
 
