@@ -34,6 +34,7 @@ namespace proj
         private void button1_Click(object sender, EventArgs e)
         {
             database.openConnection();
+
             var login = textBox1.Text;
             var password = textBox2.Text;
             var name = textBox3.Text;
@@ -67,7 +68,6 @@ namespace proj
                     MessageBox.Show("Аккаунт не создан: " + ex.Message, "Ошибка");
                 }
             }
-            database.closeConnection();
         }
         private void textBox2_TextChanged(object sender, EventArgs e)
         {

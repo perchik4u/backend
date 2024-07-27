@@ -17,6 +17,7 @@ namespace proj
     {
 
         dataBase database = new dataBase();
+        
 
         public login()
         {
@@ -27,12 +28,13 @@ namespace proj
 
         private void login_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             database.openConnection();
+
             var login = textBox12.Text;
             var password = textBox11.Text;
 
@@ -85,7 +87,6 @@ namespace proj
             {
                 MessageBox.Show("Ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            database.closeConnection();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
