@@ -10,6 +10,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace proj
 {
@@ -148,6 +149,61 @@ namespace proj
                 textBox_bossName.Text = row.Cells[3].Value.ToString();
             }
 
+        }
+
+
+        private void SearchUser(DataGridView dgw)
+        {
+            dgw.Rows.Clear();
+
+            string searchString = $"select id, fName, uLogin, phoneNumber, companyName from users where concat (id, fName, uLogin, phoneNumber, companyName) like '%" + textBox_searchUsers.Text + "%'";
+
+            SqlCommand com = new SqlCommand(searchString, database.getConnection());
+
+            database.openConnection();
+
+            SqlDataReader reader = com.ExecuteReader();
+            
+            while(reader.Read())
+            {
+                ReadSingleRow(dgw, reader);
+            }
+
+            reader.Close();
+        }
+
+
+        private void SearchCompany(DataGridView dgw)
+        {
+            dgw.Rows.Clear();
+
+            string searchString = $"select id, cName, country, bossName from company where concat (id, cName, country, bossName) like '%" + textBox_searchCompany.Text + "%'";
+
+            SqlCommand com = new SqlCommand(searchString, database.getConnection());
+
+            database.openConnection();
+
+            SqlDataReader reader = com.ExecuteReader();
+
+            while(reader.Read())
+            {
+                ReadSingleRow2(dgw, reader);
+            }
+
+            reader.Close();
+        }
+
+
+
+
+        private void textBox_searchUsers_TextChanged(object sender, EventArgs e)
+        {
+            SearchUser(dataGridView);
+        }
+
+        private void textBox_searchCompany_TextChanged(object sender, EventArgs e)
+        {
+            SearchCompany(dataGridView1);
         }
     }
 }
