@@ -45,29 +45,31 @@ namespace proj
             dataGridView.Columns.Add("fName", "Имя");
             dataGridView.Columns.Add("uLogin", "Логин");
             dataGridView.Columns.Add("phoneNumber", "Телефон");
+            dataGridView.Columns.Add("companyName", "Компания");
             dataGridView.Columns.Add("IsNew", String.Empty);
 
             dataGridView1.Columns.Add("id", "id");
             dataGridView1.Columns.Add("cName", "Название");
             dataGridView1.Columns.Add("country", "Страна");
+            dataGridView1.Columns.Add("bossName", "Директор");
             dataGridView1.Columns.Add("IsNew", String.Empty);
         }
 
         private void ReadSingleRow(DataGridView dgw, IDataRecord record)
         {
-            dgw.Rows.Add(record.GetGuid(0), record.GetString(1), record.GetString(2), record.GetString(3), RowState.ModifiedNew);
+            dgw.Rows.Add(record.GetGuid(0), record.GetString(1), record.GetString(2), record.GetString(3), record.GetString(4), RowState.ModifiedNew);
         }
 
         private void ReadSingleRow2(DataGridView dgw, IDataRecord record)
         {
-            dgw.Rows.Add(record.GetGuid(0), record.GetString(1), record.GetString(2), RowState.ModifiedNew);
+            dgw.Rows.Add(record.GetGuid(0), record.GetString(1), record.GetString(2), record.GetString(3), RowState.ModifiedNew);
         }
 
         private void RefreshDataGrid(DataGridView dgw)
         {
             dgw.Rows.Clear();
 
-            string queryString = $"SELECT id, fName, uLogin, phoneNumber FROM users";
+            string queryString = $"SELECT id, fName, uLogin, phoneNumber, companyName FROM users";
 
             SqlCommand command = new SqlCommand(queryString, database.getConnection());
 
@@ -86,7 +88,7 @@ namespace proj
         {
             dgw.Rows.Clear();
 
-            string queryString = $"SELECT id, cName, country FROM company";
+            string queryString = $"SELECT id, cName, country, bossName FROM company";
 
             SqlCommand command = new SqlCommand(queryString, database.getConnection());
 
@@ -124,6 +126,7 @@ namespace proj
                 textBox_fName.Text = row.Cells[1].Value.ToString();
                 textBox_phone.Text = row.Cells[3].Value.ToString();
                 textBox_login.Text = row.Cells[2].Value.ToString();
+                textBox_company.Text = row.Cells[4].Value.ToString();
             }
         }
 
@@ -142,6 +145,7 @@ namespace proj
 
                 textBox_companyName.Text = row.Cells[1].Value.ToString();
                 textBox_country.Text = row.Cells[2].Value.ToString();
+                textBox_bossName.Text = row.Cells[3].Value.ToString();
             }
 
         }
