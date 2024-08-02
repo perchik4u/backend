@@ -193,7 +193,53 @@ namespace proj
             reader.Close();
         }
 
+        private void deleteRowUsers()
+        {
+            int index = dataGridView.CurrentCell.RowIndex;
 
+            dataGridView.Rows[index].Visible = false;
+
+            if (dataGridView.Rows[index].Cells[2].Value == null || dataGridView.Rows[index].Cells[2].Value.ToString() == string.Empty)
+            {
+                dataGridView.Rows[index].Cells[5].Value = RowState.Deleted;
+                return;
+            }
+            dataGridView.Rows[index].Cells[5].Value = RowState.Deleted;
+        }
+
+        private void UpdateUsers()
+        {
+            database.openConnection();
+
+            for (int index = 0; index < dataGridView.Rows.Count; index++)
+            {
+                var rowState = (RowState)dataGridView.Rows[index].Cells[5].Value;
+
+                if (rowState == RowState.Existed)
+                {
+                    continue;
+                }
+
+                if (rowState == RowState.Deleted)
+                {
+                    var login = dataGridView.Rows[index].Cells[2].Value?.ToString();
+                    if (string.IsNullOrEmpty(login))
+                    {
+                        continue;
+                    }
+
+                    var deleteQuary = $"delete from users where uLogin = @login";
+
+                    using (SqlCommand com = new SqlCommand(deleteQuary, database.getConnection()))
+                    {
+                        com.Parameters.AddWithValue("@login", login);
+                        com.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            database.closeConnection();
+        }
 
 
         private void textBox_searchUsers_TextChanged(object sender, EventArgs e)
@@ -204,6 +250,16 @@ namespace proj
         private void textBox_searchCompany_TextChanged(object sender, EventArgs e)
         {
             SearchCompany(dataGridView1);
+        }
+
+        private void button_delete_Click(object sender, EventArgs e)
+        {
+            deleteRowUsers();
+        }
+
+        private void button_save_Click(object sender, EventArgs e)
+        {
+            UpdateUsers();
         }
     }
 }
