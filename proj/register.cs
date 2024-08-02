@@ -43,11 +43,24 @@ namespace proj
             var company = textBox6.Text;
             bool isBoss = checkBox1.Checked;
 
+            using (SqlCommand checkCommand = new SqlCommand("SELECT COUNT(*) FROM users WHERE uLogin = @Login", database.getConnection()))
+            {
+                checkCommand.Parameters.AddWithValue("@Login", login);
+                int existingUserCount = (int)checkCommand.ExecuteScalar();
+
+                if (existingUserCount > 0)
+                {
+                    MessageBox.Show("Аккаунт не создан: Пользователь с таким логином уже существует", "Ошибка");
+                    database.closeConnection();
+                    return;
+                }
+            }
+
             using (SqlCommand command = new SqlCommand("RegisterUserFIX", database.getConnection()))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@Login", login);
-                command.Parameters.AddWithValue("@Password", password); 
+                command.Parameters.AddWithValue("@Password", password);
                 command.Parameters.AddWithValue("@IsBoss", isBoss);
                 command.Parameters.AddWithValue("@CompanyName", company);
                 command.Parameters.AddWithValue("@PhoneNumber", number);
@@ -56,16 +69,31 @@ namespace proj
 
                 try
                 {
-                    command.ExecuteNonQuery();
-                    MessageBox.Show("Аккаунт успешно создан", "Успешная регистрация");
-                    login frm_login = new login();
-                    this.Hide();
-                    frm_login.ShowDialog();
-                    this.Show();
+                    int result = command.ExecuteNonQuery();
+                    if (result > 0)
+                    {
+                        MessageBox.Show("Аккаунт успешно создан", "Успешная регистрация");
+                        login frm_login = new login();
+                        this.Hide();
+                        frm_login.ShowDialog();
+                        this.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Аккаунт не создан: Неизвестная ошибка", "Ошибка");
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show("Аккаунт не создан: " + ex.Message, "Ошибка");
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Аккаунт не создан: " + ex.Message, "Ошибка");
+                }
+                finally
+                {
+                    database.closeConnection();
                 }
             }
         }
